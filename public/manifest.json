@@ -1,0 +1,16 @@
+{
+  "short_name": "Mercado",
+  "name": "Mercado em Família",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#f8fahfd",
+  "theme_color": "#10b981",
+  "display": "standalone",
+  "orientation": "portrait"
+  }

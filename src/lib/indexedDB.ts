@@ -12,13 +12,16 @@ let dbPromise: Promise<IDBPDatabase> | null = null;
 
 function getDB() {
   if (!dbPromise) {
-    dbPromise = openDB('mercado-em-familia', 1, {
+    dbPromise = openDB('mercado-em-familia', 2, {
       upgrade(db) {
         if (!db.objectStoreNames.contains('cache_items')) {
           db.createObjectStore('cache_items', { keyPath: 'id' });
         }
         if (!db.objectStoreNames.contains('pending_ops')) {
           db.createObjectStore('pending_ops', { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains('audit_events')) {
+          db.createObjectStore('audit_events', { keyPath: 'id' });
         }
       }
     });
@@ -35,10 +38,22 @@ export async function saveCachedItems(_familyId: string, items: any[]): Promise<
   await tx.done;
 }
 
+export async function putCachedItem(item: any): Promise<void> {
+  const db = await getDB();
+  await db.put('cache_items', item);
+}
+
+export async function getCachedItem(id: string): Promise<any | undefined> {
+  const db = await getDB();
+  return db.get('cache_items', id);
+}
+
 export async function getCachedItems(familyId: string): Promise<any[]> {
   const db = await getDB();
   const all = await db.getAll('cache_items');
-  return all.filter((i: any) => i.family_id === familyId && i.status !== 'removed');
+  return all
+    .filter((i: any) => i.family_id === familyId && i.status !== 'removed')
+    .sort((a: any, b: any) => (b.created_at || '').localeCompare(a.created_at || ''));
 }
 
 export async function addPendingOperation(op: PendingOperation): Promise<void> {
@@ -54,4 +69,17 @@ export async function getPendingOperations(): Promise<PendingOperation[]> {
 export async function removePendingOperation(id: string): Promise<void> {
   const db = await getDB();
   await db.delete('pending_ops', id);
+}
+
+export async function addLocalAuditEvent(event: any): Promise<void> {
+  const db = await getDB();
+  await db.put('audit_events', event);
+}
+
+export async function getLocalAuditEvents(familyId: string): Promise<any[]> {
+  const db = await getDB();
+  const all = await db.getAll('audit_events');
+  return all
+    .filter((e: any) => e.family_id === familyId)
+    .sort((a: any, b: any) => b.created_at.localeCompare(a.created_at));
 }

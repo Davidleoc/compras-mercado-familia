@@ -1,7 +1,7 @@
 
 import { supabase, isSupabaseConfigured } from '../../lib/supabase';
 import { getPendingOperations, removePendingOperation } from '../../lib/indexedDB';
-import { atomicAddItem, updateItemStatus } from '../../services/shoppingService';
+import { atomicAddItem, updateItemStatus, updateItemQuantity } from '../../services/shoppingService';
 
 export function subscribeToFamily(familyId: string, onChange: () => void) {
   if (!isSupabaseConfigured || !supabase) {
@@ -46,6 +46,8 @@ export async function syncPendingOperations(): Promise<number> {
           op.payload.quantity,
           op.payload.unit
         );
+      } else if (op.type === 'update_quantity') {
+        await updateItemQuantity(op.family_id, op.payload.itemId, op.payload.quantity);
       } else if (op.type === 'purchase_item' || op.type === 'remove_item') {
         await updateItemStatus(
           op.family_id,

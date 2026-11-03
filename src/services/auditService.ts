@@ -1,5 +1,6 @@
 import type { AuditEvent } from '../types/database';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { getLocalAuditEvents } from '../lib/indexedDB';
 
 export interface AuditFilters {
   action?: string;
@@ -16,7 +17,10 @@ export async function fetchAuditEvents(
   pageSize: number = 20
 ): Promise<{ events: AuditEvent[]; total: number }> {
   if (!isSupabaseConfigured || !supabase) {
-    return { events: [], total: 0 };
+    let events = (await getLocalAuditEvents(familyId)) as AuditEvent[];
+    if (filters.action) events = events.filter((e) => e.action === filters.action);
+    const from = (page - 1) * pageSize;
+    return { events: events.slice(from, from + pageSize), total: events.length };
   }
   let query = supabase
     .from('audit_events')

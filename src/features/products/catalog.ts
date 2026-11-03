@@ -16,17 +16,19 @@ export const INITIAL_CATALOG_ITEMS: CatalogItemDefinition[] = [
   { id: 'prod-macarrao', name: 'Macarrão', icon: '🍝', category: 'graos_basicos', default_unit: 'pacote' },
   { id: 'prod-farinha', name: 'Farinha de trigo', icon: '🌾', category: 'graos_basicos', default_unit: 'kg' },
   { id: 'prod-acucar', name: 'Açúcar', icon: '🥄', category: 'graos_basicos', default_unit: 'kg' },
-  { id: 'prod-sal', name: 'Sal', icon: '�싂', category: 'graos_basicos', default_unit: 'kg' },
+  { id: 'prod-sal', name: 'Sal', icon: '🧂', category: 'graos_basicos', default_unit: 'kg' },
   { id: 'prod-cafe', name: 'Café', icon: '☕', category: 'graos_basicos', default_unit: 'pacote' },
   { id: 'prod-oleo', name: 'Óleo de cozinha', icon: '🫒', category: 'graos_basicos', default_unit: 'unidade' },
+  { id: 'prod-pipoca', name: 'Pipoca', icon: '🍿', category: 'graos_basicos', default_unit: 'pacote' },
 
   // Laticínios e refrigerados
-  { id: 'prod-leite', name: 'Leite', icon: '🥛', category: 'laticinios_refrigerados', default_unit: 'unidade' },
+  { id: 'prod-leite', name: 'Leite', icon: 'svg:leite-caixa', category: 'laticinios_refrigerados', default_unit: 'unidade' },
   { id: 'prod-iogurte-grego-zero', name: 'Iogurte grego zero', icon: '🥣', category: 'laticinios_refrigerados', default_unit: 'unidade' },
   { id: 'prod-iogurte-natural', name: 'Iogurte natural', icon: '🥣', category: 'laticinios_refrigerados', default_unit: 'unidade' },
-  { id: 'prod-queijo', name: 'Queijo', icon: '�샀', category: 'laticinios_refrigerados', default_unit: 'g' },
-  { id: 'prod-manteiga', name: 'Manteiga', icon: '�죈', category: 'laticinios_refrigerados', default_unit: 'pote' },
+  { id: 'prod-queijo', name: 'Queijo', icon: '🧀', category: 'laticinios_refrigerados', default_unit: 'g' },
+  { id: 'prod-manteiga', name: 'Manteiga', icon: '🧈', category: 'laticinios_refrigerados', default_unit: 'pote' },
   { id: 'prod-ovos', name: 'Ovos', icon: '🥚', category: 'laticinios_refrigerados', default_unit: 'dúzia' },
+  { id: 'prod-requeijao-light', name: 'Requeijão light', icon: 'svg:requeijao', category: 'laticinios_refrigerados', default_unit: 'pote' },
 
   // Frutas
   { id: 'prod-banana', name: 'Banana', icon: '🍌', category: 'frutas', default_unit: 'dúzia' },
@@ -46,6 +48,7 @@ export const INITIAL_CATALOG_ITEMS: CatalogItemDefinition[] = [
   { id: 'prod-cenoura', name: 'Cenoura', icon: '🥕', category: 'hortifruti', default_unit: 'kg' },
   { id: 'prod-alface', name: 'Alface', icon: '🥬', category: 'hortifruti', default_unit: 'maço' },
   { id: 'prod-brocolis', name: 'Brócolis', icon: '🥦', category: 'hortifruti', default_unit: 'unidade' },
+  { id: 'prod-ketchup', name: 'Ketchup', icon: '🥫', category: 'outros', default_unit: 'frasco' },
 
   // Proteínas
   { id: 'prod-frango', name: 'Frango', icon: '🍗', category: 'proteinas', default_unit: 'kg' },
@@ -55,6 +58,7 @@ export const INITIAL_CATALOG_ITEMS: CatalogItemDefinition[] = [
   // Padaria
   { id: 'prod-pao-frances', name: 'Pão francês', icon: '🥖', category: 'padaria', default_unit: 'unidade' },
   { id: 'prod-pao-forma', name: 'Pão de forma', icon: '🍞', category: 'padaria', default_unit: 'pacote' },
+  { id: 'prod-torrada-integral', name: 'Torrada integral', icon: '🍞', category: 'padaria', default_unit: 'pacote' },
 
   // Limpeza
   { id: 'prod-detergente', name: 'Detergente', icon: '🧴', category: 'limpeza', default_unit: 'frasco' },
@@ -76,19 +80,29 @@ export const INITIAL_CATALOG: Product[] = INITIAL_CATALOG_ITEMS.map((item) => ({
   created_by: null,
 }));
 
-export const FREQUENT_SUGGESTIONS: Product[] = [
-  INITIAL_CATALOG.find((p) => p.name === 'Arroz')!
-  || INITIAL_CATALOG[0],
-  INITIAL_CATALOG.find((p) => p.name === 'Feijão')!
-  || INITIAL_CATALOG[1],
-  INITIAL_CATALOG.find((p) => p.name === 'Leite')!
-  || INITIAL_CATALOG[8],
-  INITIAL_CATALOG.find((p) => p.name === 'Iogurte grego zero')!
-  || INITIAL_CATALOG[9],
-  INITIAL_CATALOG.find((p) => p.name === 'Banana')!
-  || INITIAL_CATALOG[14],
-  INITIAL_CATALOG.find((p) => p.name === 'Coco seco')!
-  || INITIAL_CATALOG[15],
-  INITIAL_CATALOG.find((p) => p.name === 'Maçã')!
-  || INITIAL_CATALOG[16],
+// Itens principais padrão (o usuário pode editar no app)
+export const DEFAULT_MAIN_ITEM_NAMES = [
+  'Arroz',
+  'Feijão',
+  'Leite',
+  'Iogurte grego zero',
+  'Macarrão',
+  'Torrada integral',
+  'Requeijão light',
+  'Pipoca',
+  'Alface',
+  'Tomate',
+  'Ketchup',
+  'Banana',
+  'Coco seco',
+  'Maçã',
 ];
+
+export const FREQUENT_SUGGESTIONS: Product[] = DEFAULT_MAIN_ITEM_NAMES
+  .map((name) => INITIAL_CATALOG.find((p) => p.name === name))
+  .filter((p): p is Product => Boolean(p));
+
+export function findCatalogProduct(name: string): Product | undefined {
+  const norm = normalizeProductName(name);
+  return INITIAL_CATALOG.find((p) => p.normalized_name === norm);
+}

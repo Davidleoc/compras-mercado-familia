@@ -68,7 +68,7 @@ export function App() {
       setIsLoadingHistory(true);
       fetchAuditEvents(familyId, { action: filterAction || undefined })
         .then((res) => setAuditEvents(res.events))
-        .catch(() => showToast('Erro ao carregar hist\u00f3rico.'))
+        .catch(() => showToast('Erro ao carregar histórico.'))
         .finally(() => setIsLoadingHistory(false));
     }
   }, [activeTab, filterAction, familyId]);
@@ -86,7 +86,7 @@ export function App() {
 
     try {
       await atomicAddItem(familyId, productId, matched ? null : targetName, norm, qty, unit);
-      showToast(`${targetName} adicionado \u00e0 lista!`);
+      showToast(`${targetName} adicionado à lista!`);
       if (!product) {
         setInputName('');
         setIinputQty(1);
@@ -153,8 +153,8 @@ export function App() {
           <h1>{familyName}</h1>
           <p>
             {activeTab === 'list' && `${pendingItems.length} item(ns) pendente(s)`}
-            {activeTab === 'history' && 'Hist\u00f3rico de Atividades'}
-            {activeTab === 'family' && 'Membros da Fam\u00edlia'}
+            {activeTab === 'history' && 'Histórico de Atividades'}
+            {activeTab === 'family' && 'Membros da Família'}
             {activeTab === 'settings' && 'Ajustes do Aplicativo'}
           </p>
         </div>
@@ -176,7 +176,7 @@ export function App() {
               <input
                 className="input"
                 type="text"
-                placeholder="O que est\u00e1 faltando em casa?"
+                placeholder="O que está faltando em casa?"
                 value={inputName}
                 onChange={(e) => setInputName(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddItem()}
@@ -197,7 +197,7 @@ export function App() {
                 <option value="kg">kg</option>
                 <option value="pacote">pacote</option>
                 <option value="litro">litro</option>
-                <option value="d\u00fazia">d\u00fazia</option>
+                <option value="dúzia">dúzia</option>
               </select>
               <button className="btn-primary" onClick={() => handleAddItem()}>
                 <Plus size={18} />
@@ -222,7 +222,7 @@ export function App() {
               <div className="section-heading">Itens Pendentes ({pendingItems.length})</div>
               {pendingItems.length === 0 ? (
                 <div className="empty-state">
-                  <div className="empty-state-icon">\u1F6D2</div>
+                  <div className="empty-state-icon">🛒</div>
                   <p>Tudo em dia! Nenhum produto pendente.</p>
                 </div>
               ) : (
@@ -230,7 +230,7 @@ export function App() {
                   {pendingItems.map((item) => (
                     <div key={item.id} className="item-card">
                       <div className="item-info" onClick={() => handleTogglePurchased(item)}>
-                        <span className="item-icon">{item.product?.icon || '\u1F4E6'}</span>
+                        <span className="item-icon">{item.product?.icon || '📦'}</span>
                         <div>
                           <div className="item-name">{item.product?.name || item.custom_name}</div>
                           <div className="item-qty">
@@ -267,7 +267,7 @@ export function App() {
                   {purchasedItems.map((item) => (
                     <div key={item.id} className="item-card purchased">
                       <div className="item-info" onClick={() => handleTogglePurchased(item)}>
-                        <span className="item-icon">{item.product?.icon || '\u1F4E6'}</span>
+                        <span className="item-icon">{item.product?.icon || '📦'}</span>
                         <div>
                           <div className="item-name">{item.product?.name || item.custom_name}</div>
                           <div className="item-qty">
@@ -300,7 +300,7 @@ export function App() {
                 value={filterAction}
                 onChange={(e) => setFilterAction(e.target.value)}
               >
-                <option value="">Todas as a\u00e7\u00f5es</option>
+                <option value="">Todas as ações</option>
                 <option value="item_added">Item adicionado</option>
                 <option value="quantity_changed">Quantidade alterada</option>
                 <option value="item_purchased">Item comprado</option>
@@ -314,12 +314,12 @@ export function App() {
 
             {isLoadingHistory ? (
               <div className="empty-state">
-                <p>Carregando hist\u00f3rico...</p>
+                <p>Carregando histórico...</p>
               </div>
             ) : auditEvents.length === 0 ? (
               <div className="empty-state">
-                <div className="empty-state-icon">\u1F4CB</div>
-                <p>Nenhuma altera\u00e7\u00e3o registrada ainda.</p>
+                <div className="empty-state-icon">📋</div>
+                <p>Nenhuma alteração registrada ainda.</p>
               </div>
             ) : (
               <div>
@@ -336,7 +336,7 @@ export function App() {
                       <span>{new Date(ev.created_at).toLocaleTimeString('tt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
                     </div>
                     <div className="history-card-meta">
-                      {ev.after_data?.product_name || ev.before_data?.product_name || 'Produto'} \u2014 Realizado por {ev.actor_name || 'Familiar'}
+                      {ev.after_data?.product_name || ev.before_data?.product_name || 'Produto'} — Realizado por {ev.actor_name || 'Familiar'}
                       {ev.reason && <div>Motivo: {ev.reason}</div>}
                     </div>
                   </div>
@@ -356,7 +356,7 @@ export function App() {
               </div>
             </div>
             <div className="settings-card">
-              <h3>Privacidade ePermiss\u00f5es</h3>
+              <h3>Privacidade e Permissões</h3>
               <p>Todos os membros autorizados podem visualizar, adicionar e riscar produtos em tempo real.</p>
             </div>
           </div>
@@ -365,15 +365,15 @@ export function App() {
         {activeTab === 'settings' && (
           <div>
             <div className="settings-card">
-              <h3>Plano e Opera\u00e7\u00e3o</h3>
-              <p>Operando com <strong>Custo Zero (RS\u00a00,00/m\u00es)</strong>.</p>
+              <h3>Plano e Operação</h3>
+              <p>Operando com <strong>Custo Zero (R$ 0,00/mês)</strong>.</p>
               <p style={{ marginTop: '6px' }}>
                 Status do Supabase: {isSupabaseConfigured ? "Conectado" : "Modo Local"}
               </p>
             </div>
             <div className="settings-card">
-              <h3>Instala\u00e7\u00e3o como Aplicativo (PWA)</h3>
-              <p>Abra no navegador do seu smartphone (toque em <strong>"Adicionar \u00e0 tela de in\u00edcio"</strong>,\nn\u00e2o precisa de lojas de aplicativos).</p>
+              <h3>Instalação como Aplicativo (PWA)</h3>
+              <p>Abra no navegador do seu smartphone (toque em <strong>"Adicionar à tela de início"</strong>, não precisa de lojas de aplicativos).</p>
             </div>
           </div>
         )}
@@ -418,14 +418,14 @@ export function App() {
           onClick={() => setActiveTab('history')}
         >
           <History size={20} />
-          <span>Hist\u00f3rico</span>
+          <span>Histórico</span>
         </button>
         <button
           className={`nav-item ${activeTab === 'family' ? 'active' : ''}`}
           onClick={() => setActiveTab('family')}
         >
           <Users size={20} />
-          <span>Fam\u00edlia</span>
+          <span>Família</span>
         </button>
         <button
           className={`nav-item ${activeTab === 'settings' ? 'active' : ''}}`}
